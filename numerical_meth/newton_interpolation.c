@@ -34,6 +34,6 @@ int main() {
         p += a[i][0] * product;
     }
 
-    printf("Result is %lf", p);
+    printf("Result is %.3lf", p);
     return 0;
 }
