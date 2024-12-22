@@ -30,18 +30,27 @@ serves a similar purpose.
 
 Deleting and inserting in a doubly linked list:
 
-- To insert D in A<->B<->C at B, do something like this:
+To insert D in A<->B<->C at B, do something like this:
+
+```
      A -> D
      D -> B
      D <- B
      A <- D
-  That is, A points to D and is pointed at by D, and D points to B
-  and is pointed at by B.
-- Let's say we want to delete C from A<->B<->C<->D. Then:
-     B -> D
-     D <- B
-     C.prev = C.next = null
-  Or, if you were using a non-GC'd language like C, just free(C).
+```
+
+That is, A points to D and is pointed at by D, and D points to B
+and is pointed at by B.
+
+Let's say we want to delete C from A<->B<->C<->D. Then:
+
+```
+B -> D
+D <- B
+C.prev = C.next = null
+```
+
+Or, if you were using a non-GC'd language like C, just free(C).
 
 Deleting and insertion itself from a linked list is O(1), since we 
 do the same number of operations, which each are setting stuff 

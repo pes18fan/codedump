@@ -13,6 +13,7 @@ WEIGHTS FOR EACH EDGE.
 
 Let's take this badly drawn graph:
 
+```
 (0) --5--> (2) --1--> (4)
  |        ↗ ▲
  |       /  |
@@ -23,6 +24,7 @@ Let's take this badly drawn graph:
  |  /       |
  ▼ /        |
 (1) --6--> (3)
+```
 
 The numbers enclosed in the brackets represent a node, thus we have five nodes
 0, 1, 2, 3 and 4. Each edge joining these nodes has an associated weight, and as
