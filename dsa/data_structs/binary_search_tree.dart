@@ -88,14 +88,59 @@ class BST {
     return _has(node.left, value);
   }
 
-  // base cases:
-  // 1. no child: delete
-  // 2. one child: set parent to point to child
-  // 3. two children: take the left hand side (smaller one), find the largest
-  //    element in it, put it where the node is
-  //    or, you could do the inverse by finding the smallest on the large side
-  int _delete(BinaryNode<int>? node, int value) {
-    throw UnimplementedError();
+  BinaryNode<int>? _delete(BinaryNode<int>? node, int value) {
+    /* If the node is null, we're at the beginning of a tree and can't delete
+     * from there. */
+    if (node == null) {
+      throw ArgumentError("Es gibt keinen Wert $value.");
+    }
+
+    if (value < node.value) {
+      // Delete from the left subtree
+      node.left = _delete(node.left, value);
+    } else if (value > node.value) {
+      // Delete from the right subtree
+      node.right = _delete(node.right, value);
+    } else {
+      // If neither of the above if's are satisfied, we found the node to delete.
+      // Now we have three possible situations.
+      // Base case 1: node is a leaf, then just delete it
+      if (node.left == null && node.right == null) {
+        return null;
+      }
+
+      // Base case 2: one child, set parent to point to child
+      else if (node.left == null || node.right == null) {
+        if (node.left == null)
+          return node.right;
+        else
+          return node.left;
+      }
+
+      /* Base case 3: two children, take the left hand side (smaller one), find 
+       * the largest element in it, put it where the node is. Or, you could do 
+       * the inverse by finding the smallest on the large side.
+       *
+       * In this case, we'll find the smallest in the right side or the in-order
+       * successor.
+       */
+      else {
+        // Start with the right node
+        BinaryNode<int> successor = node.right!;
+
+        // Find the smallest value in the right subtree
+        while (successor.left != null) {
+          successor = successor.left!;
+        }
+
+        // We now have the smallest value in the right subtree. Replace the current
+        // node's value with this.
+        node.value = successor.value;
+        node.right = _delete(node.right, successor.value);
+      }
+    }
+
+    return node;
   }
 
   bool has(int value) {
@@ -106,8 +151,8 @@ class BST {
     _insert(root, value);
   }
 
-  int delete(int value) {
-    return _delete(root, value);
+  void delete(int value) {
+    _delete(root, value);
   }
 }
 
@@ -124,6 +169,11 @@ void testBST() {
 
   assert(tree.has(420));
 
+  tree.delete(420);
+  tree.delete(-1);
+
+  assert(tree.toString() == "1(0)(69)");
+
   final tree2 = BST();
 
   tree2.insert(1);
@@ -131,6 +181,8 @@ void testBST() {
   tree2.insert(420);
   tree2.insert(-1);
   tree2.insert(0);
+  tree2.delete(420);
+  tree2.delete(-1);
 
   assert(binaryTreesEqual(tree.root, tree2.root));
 

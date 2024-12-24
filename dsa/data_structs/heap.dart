@@ -1,4 +1,5 @@
 /* # Heap / Priority queue.
+
    A heap is a binary tree, where every child and grandchild of a node is
    smaller (a max heap) or larger (a min heap) than itself. Whenever a node
    is added or deleted, we must adjust it. We don't "traverse" a heap.
@@ -25,50 +26,50 @@
    bottom, then start bubbling back up, swapping with its parents, until it 
    reached the top, where it should be.
 
-    ## Deleting
+   ## Deleting
 
-    We always delete the root node. Then we take the last node and put it at
-    the top. Then we bubble down as required.
+   We always delete the root node. Then we take the last node and put it at
+   the top. Then we bubble down as required.
 
-    But, HOW do we "get" or "take" the last node? That would be hard with
-    a node-based data-structure. Instead, we use something else.
+   But, HOW do we "get" or "take" the last node? That would be hard with
+   a node-based data-structure. Instead, we use something else.
 
-    Assign an index to each element, like an array, breadth-first. So, in
-    the above poorly drawn heap, 50 would be index 0, 71 would be 1, 100
-    would be 2, 101 would be 3 etc etc. So we'd get:
+   Assign an index to each element, like an array, breadth-first. So, in
+   the above poorly drawn heap, 50 would be index 0, 71 would be 1, 100
+   would be 2, 101 would be 3 etc etc. So we'd get:
 
-    [50, 71, 100, 101, 80, 200, 101]
-     0   1    2    3   4    5    6
+   [50, 71, 100, 101, 80, 200, 101]
+    0   1    2    3   4    5    6
 
-    To find the index of a node's children in this array, you use two
-    formulae:
+   To find the index of a node's children in this array, you use two
+   formulae:
 
-    2i + 1 for the left child, and
-    2i + 2 for the right child.
+   2i + 1 for the left child, and
+   2i + 2 for the right child.
 
-    Where, `i` is the index of the node whose children you're trying to get.
-    
-    Try applying this formula to index 2 (100). You'll get:
+   Where, `i` is the index of the node whose children you're trying to get.
+   
+   Try applying this formula to index 2 (100). You'll get:
 
-    2 * 2 + 1 = 5 (200)
-    2 * 2 + 2 = 6 (101)
+   2 * 2 + 1 = 5 (200)
+   2 * 2 + 2 = 6 (101)
 
-    Which are indeed the correct children!
+   Which are indeed the correct children!
 
-    Well, that's cool and all, but how do we go back? Use this formula
-    to reverse the thing we did just before:
+   Well, that's cool and all, but how do we go back? Use this formula
+   to reverse the thing we did just before:
 
-    (i - 2) / 2
+   (i - 2) / 2
 
-    This will get the parent of a node. Applying it to node 5 gives:
+   This will get the parent of a node. Applying it to node 5 gives:
 
-    (5 - 2) / 2 => 3 / 2 => 1
+   (5 - 2) / 2 => 3 / 2 => 1
 
-    Which indeed is its parent!
+   Which indeed is its parent!
 
-    And, to get the last item, just keep track of the length of the array.
+   And, to get the last item, just keep track of the length of the array.
 
-    Both insertion and deletion from a heap are O(log n).
+   Both insertion and deletion from a heap are O(log n).
 */
 class MinHeap {
     late int len;
