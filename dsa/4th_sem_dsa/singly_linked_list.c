@@ -101,6 +101,11 @@ void pop() {
 
 /* Delete a specific position in the list. */
 void delete_at(int pos) {
+    if (head == NULL) {
+        fprintf(stderr, "Cannot delete from list as it's empty!\n");
+        return;
+    }
+
     Node* ptr = head;
     Node* prev = ptr;
     for (int i = 0; i < pos; i++) {
