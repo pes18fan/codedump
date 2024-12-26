@@ -1,6 +1,3 @@
-/* Basic implementation of a singly linked list.
- * Function names for inserting and removing values are based on equivalent
- * function names from JavaScript. */
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -11,7 +8,7 @@ typedef struct Node {
 
 Node* head = NULL;
 
-/* Add at the start of the list. */
+/* Insert at start of list. */
 void unshift(int value) {
     Node* new = malloc(sizeof(Node));
     new->data = value;
@@ -26,7 +23,7 @@ void unshift(int value) {
     head = new;
 }
 
-/* Add at the end of the list. */
+/* Insert at push of list. */
 void push(int value) {
     Node* new = malloc(sizeof(Node));
     new->data = value;
@@ -45,34 +42,72 @@ void push(int value) {
     ptr->next = new;
 }
 
-/* Add at a specific position in the list. */
+/* Insert at specified position. */
 void insert_at(int pos, int value) {
     Node* new = malloc(sizeof(Node));
     new->data = value;
     new->next = NULL;
 
+    /* Case if the list is empty. */
     if (head == NULL) {
         head = new;
         return;
     }
 
-    Node* ptr = head;
-    for (int i = 0; i < pos - 1; i++) {
-        ptr = ptr->next;
-        if (ptr == NULL) {
-            fprintf(stderr, "There exists no position %d in the list.\n", pos);
-            return;
-        }
+    /* Case if we need to insert at beginning. */
+    if (pos == 1) {
+        new->next = head;
+        head = new;
+        return;
     }
 
-    new->next = ptr->next;
-    ptr->next = new;
+    Node* temp = head;
+    Node* ptr = head;
+    for (int i = 0; i < pos - 1; i++) {
+        if (ptr == NULL) {
+            fprintf(stderr, "The position %d doesn't exist on the list.\n",
+                    pos);
+            return;
+        }
+
+        temp = ptr;
+        ptr = ptr->next;
+    }
+
+    new->next = temp->next;
+    temp->next = new;
 }
 
-/* Delete at the start of the list. */
+void printList() {
+    if (head == NULL) {
+        printf("empty list\n");
+        return;
+    }
+
+    printf("start: ");
+
+    Node* ptr = head;
+    while (ptr != NULL) {
+        printf("%d\t", ptr->data);
+        ptr = ptr->next;
+    }
+
+    printf("\n");
+}
+
+void cleanup() {
+    Node* ptr = head;
+    while (ptr != NULL) {
+        Node* p = ptr;
+        ptr = ptr->next;
+        free(p);
+        p = NULL;
+    }
+}
+
 void shift() {
     if (head == NULL) {
-        fprintf(stderr, "Cannot delete from list as it's empty!\n");
+        fprintf(stderr, "Can't remove element from an empty list!\n");
         return;
     }
 
@@ -81,79 +116,89 @@ void shift() {
     free(ptr);
 }
 
-/* Delete at the end of the list. */
 void pop() {
     if (head == NULL) {
-        fprintf(stderr, "Cannot delete from list as it's empty!\n");
+        fprintf(stderr, "Can't remove element from an empty list!\n");
         return;
     }
 
+    Node* temp = head;
     Node* ptr = head;
-    Node* prev = ptr;
+    if (head->next == NULL) {
+        head = head->next;
+        free(ptr);
+        return;
+    }
+
     while (ptr->next != NULL) {
-        prev = ptr;
+        temp = ptr;
         ptr = ptr->next;
     }
 
-    prev->next = NULL;
+    temp->next = NULL;
     free(ptr);
 }
 
-/* Delete a specific position in the list. */
 void delete_at(int pos) {
     if (head == NULL) {
-        fprintf(stderr, "Cannot delete from list as it's empty!\n");
+        fprintf(stderr, "Can't remove element from an empty list!\n");
         return;
     }
 
+    Node* temp = head;
     Node* ptr = head;
-    Node* prev = ptr;
-    for (int i = 0; i < pos; i++) {
-        prev = ptr;
-        ptr = ptr->next;
+    if (pos == 1) {
+        head = head->next;
+        free(ptr);
+        return;
+    }
 
+    for (int i = 0; i < pos - 1; i++) {
         if (ptr == NULL) {
-            fprintf(stderr, "There exists no position %d in the list.", pos);
+            fprintf(stderr, "The position %d doesn't exist on the list.\n",
+                    pos);
             return;
         }
-    }
 
-    prev->next = ptr->next;
-    free(ptr);
-}
-
-/* Print out the linked list. */
-void print_list() {
-    Node* ptr = head;
-
-    printf("first: ");
-
-    for (;;) {
-        printf("%d\t", ptr->data);
+        temp = ptr;
         ptr = ptr->next;
-
-        if (ptr == NULL)
-            break;
     }
 
-    printf("\n");
+    temp->next = ptr->next;
+    free(ptr);
 }
 
 int main() {
+    printList();
+
     push(10);
-    push(29);
-    unshift(91);
+    insert_at(1, 952);
+    push(12);
+    printList();
 
-    print_list();
+    unshift(99);
+    unshift(58);
+    printList();
 
-    insert_at(2, 69);
-    unshift(164);
+    insert_at(2, 123);
+    printList();
 
-    print_list();
+    insert_at(4, 15123);
+    printList();
+
+    insert_at(12, 751);
+    insert_at(8, 14312);
+    printList();
 
     pop();
     shift();
-    delete_at(1);
+    printList();
 
-    print_list();
+    delete_at(1);
+    delete_at(3);
+    delete_at(12);
+    printList();
+
+    cleanup();
+    return 0;
 }
