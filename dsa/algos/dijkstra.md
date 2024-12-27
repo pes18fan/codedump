@@ -3,7 +3,12 @@
 # Dijkstra's Shortest Path
 
 It is an algorithm developed by Edsger Dijkstra to find the shortest path
-between two nodes in a graph.
+between a source node to all other nodes in a graph. Once you know the shortest
+distance to all nodes, therefore you can also find the shortest distance to one
+specific node.
+
+The Dijkstra's algorithm is part of a family of algorithms known as greedy
+algorithms.
 
 Make sure to check out `graphs.md` in the `data_structs` folder if you don't know
 about graphs yet first.
