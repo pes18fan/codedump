@@ -16,7 +16,7 @@ class GraphNode {
 class UUG {
   late List<GraphNode> nodes;
 
-  AdjacencyList() {
+  UUG() {
     this.nodes = [];
   }
 
