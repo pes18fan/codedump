@@ -31,11 +31,15 @@ class Stack<T> {
     _head = null;
   }
 
+  bool isEmpty() {
+    return _head == null;
+  }
+
   void push(T item) {
     final node = Node<T>(item, null);
 
     len++;
-    if (_head == null) {
+    if (isEmpty()) {
       _head = node;
       return;
     }
@@ -46,7 +50,7 @@ class Stack<T> {
   }
 
   T? pop() {
-    if (_head == null) return null;
+    if (isEmpty()) return null;
 
     final hed_value = _head?.value;
     _head = _head?.prev;
