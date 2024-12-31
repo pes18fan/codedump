@@ -52,7 +52,7 @@ double evaluate(String postfix) {
         continue;
       case _:
         if (num.tryParse(scanned) == null) {
-          throw ArgumentError("Invalid postfix expression.");
+          throw ArgumentError("Operands must be numbers.");
         }
 
         stk.push(num.parse(scanned).toDouble());
