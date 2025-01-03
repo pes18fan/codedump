@@ -85,7 +85,7 @@ int deque(Queue* q) {
 
 int peek(Queue* q) {
     if (isEmpty(q)) {
-        printf("Can't deque an empty queue!\n");
+        printf("Can't peek into an empty queue!\n");
         return -1;
     }
 
