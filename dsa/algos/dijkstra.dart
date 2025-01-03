@@ -57,6 +57,7 @@ extension on DWG {
       var node = currentNode.node;
       for (var edge in node.edges) {
         var neighborIndex = unvisited.indexWhere((uv) => uv.nodeIdx == edge.to);
+        if (neighborIndex == -1) continue; // Already visited
         var neighborNode = unvisited[neighborIndex];
         if (currentNode.distance + edge.weight < neighborNode.distance) {
           neighborNode.distance = currentNode.distance + edge.weight;
