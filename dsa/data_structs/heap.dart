@@ -72,99 +72,103 @@
    Both insertion and deletion from a heap are O(log n).
 */
 class MinHeap {
-    late int len;
-    late List<int> _data;
+  late int len;
+  late List<int> _data;
 
-    MinHeap() {
-        this._data = [];
-        this.len = 0;
+  MinHeap() {
+    _data = [];
+    len = 0;
+  }
+
+  bool get isEmpty => len == 0;
+
+  void insert(int value) {
+    _data.add(value);
+    _heapifyUp(this.len);
+    len++;
+  }
+
+  int delete() {
+    if (len == 0) {
+      return -1;
     }
 
-    void insert(int value) {
-        this._data.add(value);
-        this._heapifyUp(this.len);
-        this.len++;
+    final out = _data[0];
+    len--;
+
+    if (this.len == 0) {
+      _data = [];
+      return out;
     }
 
-    int delete() {
-        if (this.len == 0) { return -1; }
+    _data[0] = _data[this.len];
+    _heapifyDown(0);
+    return out;
+  }
 
-        final out = this._data[0];
-        this.len--;
+  void _heapifyDown(int idx) {
+    final lIdx = _leftChild(idx);
+    final rIdx = _rightChild(idx);
 
-        if (this.len == 0) {
-            this._data = [];
-            return out;
-        }
-
-        this._data[0] = this._data[this.len];
-        this._heapifyDown(0);
-        return out;
+    if (idx >= len || lIdx >= len) {
+      return;
     }
 
-    void _heapifyDown(int idx) {
-        final lIdx = this._leftChild(idx);
-        final rIdx = this._rightChild(idx);
+    final lV = _data[lIdx];
+    final rV = _data[rIdx];
+    final v = _data[idx];
 
-        if (idx >= this.len || lIdx >= this.len) { return; }
-
-        final lV = this._data[lIdx];
-        final rV = this._data[rIdx];
-        final v = this._data[idx];
-
-        if (lV > rV && v > rV) {
-            this._data[idx] = rV;
-            this._data[rIdx] = v;
-            this._heapifyDown(rIdx);
-        }
-
-        else if (rV > lV && v > lV) {
-            this._data[idx] = lV;
-            this._data[lIdx] = v;
-            this._heapifyDown(lIdx);
-        }
+    if (lV > rV && v > rV) {
+      _data[idx] = rV;
+      _data[rIdx] = v;
+      _heapifyDown(rIdx);
+    } else if (rV > lV && v > lV) {
+      _data[idx] = lV;
+      _data[lIdx] = v;
+      _heapifyDown(lIdx);
     }
+  }
 
-    void _heapifyUp(int idx) {
-        if (idx == 0) return;
+  void _heapifyUp(int idx) {
+    if (idx == 0) return;
 
-        final p = this._parent(idx);
-        final parentV = this._data[p];
-        final v = this._data[idx];
+    final p = _parent(idx);
+    final parentV = _data[p];
+    final v = _data[idx];
 
-        if (parentV > v) {
-            this._data[idx] = parentV;
-            this._data[p] = v;
-            this._heapifyUp(p);
-        }
+    if (parentV > v) {
+      _data[idx] = parentV;
+      _data[p] = v;
+      _heapifyUp(p);
     }
+  }
 
-    int _leftChild(int idx) => idx * 2 + 1;
-    int _rightChild(int idx) => idx * 2 + 2;
-    int _parent(int idx) => (idx - 1) ~/ 2;
+  int _leftChild(int idx) => idx * 2 + 1;
+  int _rightChild(int idx) => idx * 2 + 2;
+  int _parent(int idx) => (idx - 1) ~/ 2;
 }
 
 void main() {
-    final heap = MinHeap();
+  final heap = MinHeap();
 
-    heap.insert(5);
-    heap.insert(3);
-    heap.insert(69);
-    heap.insert(420);
-    heap.insert(4);
-    heap.insert(1);
-    heap.insert(8);
-    heap.insert(7);
+  heap.insert(5);
+  heap.insert(3);
+  heap.insert(69);
+  heap.insert(420);
+  heap.insert(4);
+  heap.insert(1);
+  heap.insert(8);
+  heap.insert(7);
 
-    assert(heap.len == 8);
-    assert(heap.delete() == 1);
-    assert(heap.delete() == 3);
-    assert(heap.delete() == 4);
-    assert(heap.delete() == 5);
-    assert(heap.len == 4);
-    assert(heap.delete() == 7);
-    assert(heap.delete() == 8);
-    assert(heap.delete() == 69);
-    assert(heap.delete() == 420);
-    assert(heap.len == 0);
+  assert(heap.len == 8);
+  assert(heap.delete() == 1);
+  assert(heap.delete() == 3);
+  assert(heap.delete() == 4);
+  assert(heap.delete() == 5);
+  assert(heap.len == 4);
+  assert(heap.delete() == 7);
+  assert(heap.delete() == 8);
+  assert(heap.delete() == 69);
+  assert(heap.delete() == 420);
+  assert(heap.len == 0);
 }

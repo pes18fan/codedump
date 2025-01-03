@@ -118,8 +118,8 @@ void main() {
   graph.addNode(20);
   graph.addNode(45, from: 0);
   graph.addNode(69, from: 0, to: 1);
-  print(graph.toString());
+  print(graph);
 
   graph.removeNode(2);
-  print(graph.toString());
+  print(graph);
 }

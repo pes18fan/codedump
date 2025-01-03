@@ -58,7 +58,7 @@ class DWG {
   }
 
   // Check if a node exists at the provided index.
-  bool _has(int index) {
+  bool has(int index) {
     if (index < 0 || index >= nodes.length)
       return false;
     else
@@ -72,7 +72,7 @@ class DWG {
 
   // Remove a node from the graph.
   void removeNode(int index) {
-    if (!_has(index)) {
+    if (!has(index)) {
       throw ArgumentError("No node exists with index $index.");
     }
 
@@ -94,9 +94,13 @@ class DWG {
 
   // Add an edge to the graph.
   void addEdge(int weight, {required int from, required int to}) {
-    if (!_has(from)) {
+    if (!has(from)) {
       throw ArgumentError(
           "Can't add an edge starting at node $from, that node doesn't exist.");
+    }
+
+    if (weight < 0) {
+      throw ArgumentError("Edge weights can't be negative.");
     }
 
     // Check if a node pointing to `to` already exists.
@@ -111,7 +115,7 @@ class DWG {
 
   // Remove an edge from the graph.
   void removeEdge(int weight, {required int from, required int to}) {
-    if (!_has(from)) {
+    if (!has(from)) {
       throw ArgumentError(
           "Can't remove an edge starting at node $from, that node doesn't exist.");
     }
@@ -130,7 +134,7 @@ class DWG {
 
   // Change the weight of an edge.
   void changeEdgeWeight(int newWeight, {required int from, required int to}) {
-    if (!_has(from)) {
+    if (!has(from)) {
       throw ArgumentError(
           "Can't modify an edge starting at node $from, that node doesn't exist.");
     }
@@ -144,7 +148,7 @@ class DWG {
 
   // Remove all edges from `from` to `to`.
   void removeAllEdges({required int from, required int to}) {
-    if (!_has(from)) {
+    if (!has(from)) {
       throw ArgumentError(
           "Can't remove an edge starting at node $from, that node doesn't exist.");
     }
