@@ -44,11 +44,11 @@ extension on DWG {
       /* Grab the node with the least distance. This will always be at front of
        * unvisited, and we'll ensure that later in this loop. */
       var currentNode = unvisited.removeAt(0);
+      visited.add(currentNode);
 
       /* In this implementation of the Dijkstra's algorithm, I only want the
        * shortest path to `end` rather than all the paths. So, I end here. */
       if (currentNode.nodeIdx == end) {
-        visited.add(currentNode);
         break;
       }
 
@@ -67,7 +67,6 @@ extension on DWG {
 
       // Sort the unvisited list to ensure the next node has the smallest distance
       unvisited.sort((a, b) => a.distance.compareTo(b.distance));
-      visited.add(currentNode);
     }
 
     // Now, construct the path using the predecessor map
@@ -83,7 +82,8 @@ extension on DWG {
       throw StateError("No path exists from $start to $end.");
     }
 
-    return (path, visited.singleWhere((v) => v.nodeIdx == end).distance);
+    var pathLength = visited.singleWhere((v) => v.nodeIdx == end).distance;
+    return (path, pathLength);
   }
 }
 
