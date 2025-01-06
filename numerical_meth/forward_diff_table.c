@@ -1,5 +1,14 @@
 #include <stdio.h>
 
+/* Used to calculate y(xp) using Newton's interpolation formula, not necessary
+ * if only the table is needed. */
+double factorial(double x) {
+    if (x <= 1)
+        return 1;
+    else
+        return x * factorial(x - 1);
+}
+
 int main() {
     int n;
     printf("Enter the number of readings: ");
@@ -42,6 +51,26 @@ int main() {
         k--;
         printf("\n");
     }
+
+    /* Calculation of y(xp) using Newton's interpolation formula, not necessary
+     * if only the table is needed. */
+    double xp;
+    printf("Enter the value of xp to find f(xp) at: ");
+    scanf("%lf", &xp);
+
+    double p = (xp - x[0]) / (x[1] - x[0]);
+
+    double res = y[0][0];
+    for (int i = 1; i < n; i++) {
+        double p_roduct = p;
+        int k = 1;
+        for (int j = 1; j < i; j++, k++) {
+            p_roduct *= (p - k);
+        }
+        res += y[0][i] * (p_roduct / factorial(i));
+    }
+
+    printf("Result is %lf", res);
 
     return 0;
 }
