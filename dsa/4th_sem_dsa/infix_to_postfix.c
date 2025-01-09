@@ -4,6 +4,47 @@
 
 typedef enum { LR, RL } Associativity;
 
+// Higher number, higher precedence
+// 3: () {} [], 2: ^, 1: / *, 0: + -
+typedef enum {
+    TERM,     // + -
+    FACTOR,   // / *
+    EXPONENT, // ^
+    BRACKETS  // (  )
+} Precedence;
+
+Precedence precedence_of(char c) {
+    switch (c) {
+    case '(':
+    case ')':
+        return BRACKETS;
+    case '^':
+        return EXPONENT;
+    case '/':
+    case '*':
+        return FACTOR;
+    case '+':
+    case '-':
+        return TERM;
+    default:
+        return -1;
+    }
+}
+
+Associativity associativity_of(char c) {
+    switch (c) {
+    case '^':
+        return RL;
+    case '/':
+    case '*':
+    case '+':
+    case '-':
+        return LR;
+    default:
+        return -1;
+    }
+}
+
 typedef struct {
     char* arr;
     int capacity;
@@ -59,38 +100,6 @@ char peek(Stack* s) {
     return s->arr[s->top];
 }
 
-int precedence_of(char c) {
-    switch (c) {
-    case '(':
-    case ')':
-        return 3;
-    case '^':
-        return 2;
-    case '/':
-    case '*':
-        return 1;
-    case '+':
-    case '-':
-        return 0;
-    default:
-        return -1;
-    }
-}
-
-Associativity associativity_of(char c) {
-    switch (c) {
-    case '^':
-        return RL;
-    case '/':
-    case '*':
-    case '+':
-    case '-':
-        return LR;
-    default:
-        return -1;
-    }
-}
-
 bool is_digit(char c) { return c >= 48 && c <= 57; }
 
 void print_postfix(char* infix) {
@@ -116,8 +125,6 @@ void print_postfix(char* infix) {
                 continue;
             }
 
-            // Higher number, higher precedence
-            // 3: () {} [], 2: ^, 1: / *, 0: + -
             if (precedence_of(c) > precedence_of(peek(&stack))) {
                 push(&stack, c);
             } else if (precedence_of(c) < precedence_of(peek(&stack))) {
@@ -154,6 +161,7 @@ void print_postfix(char* infix) {
             }
         }
         case ' ':
+        case '\n':
             continue;
         default:
             fprintf(stderr, "\nInvalid character %c\n", c);
@@ -170,4 +178,11 @@ end:
     return;
 }
 
-int main() { print_postfix("1 + (2 - 3) * 7 / 8"); }
+int main() {
+    char buffer[512];
+
+    printf("Enter an infix expression: ");
+    fgets(buffer, sizeof(buffer), stdin);
+
+    print_postfix(buffer);
+}
