@@ -1,8 +1,41 @@
 /* Convert an infix expression into a postfix expression. Note that this only
  * works for infix expressions that have single-digit numbers. */
+import "dart:io";
 import "../data_structs/stack.dart";
 
-const precedence = {"(": 2, "/": 1, "*": 1, "+": 0, "-": 0};
+enum Associativity { LR, RL }
+
+int precedenceOf(String c) {
+  switch (c) {
+    case "(":
+    case ")":
+      return 3;
+    case "^":
+      return 2;
+    case "/":
+    case "*":
+      return 1;
+    case "+":
+    case "-":
+      return 0;
+    default:
+      throw ArgumentError("Invalid operator $c\n");
+  }
+}
+
+Associativity associativityOf(String c) {
+  switch (c) {
+    case "/":
+    case "*":
+    case "+":
+    case "-":
+      return Associativity.LR;
+    case "^":
+      return Associativity.RL;
+    default:
+      throw ArgumentError("Invalid operator $c\n");
+  }
+}
 
 String toPostfix(String infix) {
   var opStack = Stack<String>();
@@ -12,6 +45,7 @@ String toPostfix(String infix) {
     var scanned = infix[i];
 
     switch (scanned) {
+      case "^":
       case "+":
       case "-":
       case "*":
@@ -22,18 +56,26 @@ String toPostfix(String infix) {
             continue;
           }
 
-          var topOp = opStack.peek();
+          var topOp = opStack.peek()!;
 
           if (topOp == "(") {
             opStack.push(scanned);
             continue;
           }
 
-          if (precedence[topOp]! >= precedence[scanned]!) {
+          if (precedenceOf(topOp) > precedenceOf(scanned)) {
             postfix.write(opStack.pop()! + " ");
+            opStack.push(scanned);
+          } else if (precedenceOf(topOp) < precedenceOf(scanned)) {
+            opStack.push(scanned);
+          } else {
+            if (associativityOf(scanned) == Associativity.LR) {
+              postfix.write(opStack.pop()! + " ");
+              opStack.push(scanned);
+            } else {
+              opStack.push(scanned);
+            }
           }
-
-          opStack.push(scanned);
         }
       case "(":
         opStack.push(scanned);
@@ -60,7 +102,12 @@ String toPostfix(String infix) {
             throw ArgumentError("Invalid value $scanned in infix string.");
           }
 
-          postfix.write(scanned + " ");
+          // To allow multi-digit numbers
+          if (i + 1 < infix.length && num.tryParse(infix[i + 1]) != null) {
+            postfix.write(scanned);
+          } else {
+            postfix.write(scanned + " ");
+          }
         }
     }
   }
@@ -78,6 +125,6 @@ String toPostfix(String infix) {
 }
 
 void main() {
-  assert(toPostfix("1 - 3 * (6 + 4) / 4") == "1 3 6 4 + * 4 / -");
+  assert(toPostfix("1 - 37 * (6 + 4) / 41") == "1 37 6 4 + * 41 / -");
   print("ok");
 }

@@ -1,5 +1,7 @@
 /* Evaluate a postfix expression. Note that it only works when the postfix
  * expression has just single-digit numbers. */
+import "dart:math";
+import "dart:io";
 import "../data_structs/stack.dart";
 import "infix_to_postfix.dart";
 
@@ -19,11 +21,13 @@ extension on double {
 
 double evaluate(String postfix) {
   var stk = Stack<double>();
+  var scanned_num = "";
 
   for (int i = 0; i < postfix.length; i++) {
     var scanned = postfix[i];
 
     switch (scanned) {
+      case "^":
       case "+":
       case "-":
       case "/":
@@ -36,7 +40,9 @@ double evaluate(String postfix) {
           var a = stk.pop()!;
 
           double result;
-          if (scanned == "+") {
+          if (scanned == "^") {
+            result = pow(a, b).toDouble();
+          } else if (scanned == "+") {
             result = a + b;
           } else if (scanned == "-") {
             result = a - b;
@@ -55,7 +61,13 @@ double evaluate(String postfix) {
           throw ArgumentError("Operands must be numbers.");
         }
 
-        stk.push(num.parse(scanned).toDouble());
+        scanned_num += postfix[i];
+        if (i + 1 < postfix.length && num.tryParse(postfix[i + 1]) != null) {
+          continue;
+        } else {
+          stk.push(num.parse(scanned_num).toDouble());
+          scanned_num = "";
+        }
     }
   }
 
@@ -64,8 +76,8 @@ double evaluate(String postfix) {
 }
 
 void main() {
-  var postfix = toPostfix("9 + 3 - (4 + 1) / 8");
-  var infixResult = 9 + 3 - (4 + 1) / 8;
+  var postfix = toPostfix("92 + 3 - (4 + 12) / 2 ^ 10");
+  var infixResult = 92 + 3 - (4 + 12) / (pow(2, 10).toDouble());
   assert(evaluate(postfix).within(infixResult, tol: 0.0000000001));
   print("ok");
 }
