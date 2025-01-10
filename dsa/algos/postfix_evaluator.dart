@@ -1,7 +1,6 @@
 /* Evaluate a postfix expression. Note that it only works when the postfix
  * expression has just single-digit numbers. */
 import "dart:math";
-import "dart:io";
 import "../data_structs/stack.dart";
 import "infix_to_postfix.dart";
 

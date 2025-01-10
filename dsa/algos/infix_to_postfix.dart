@@ -1,6 +1,5 @@
 /* Convert an infix expression into a postfix expression. Note that this only
  * works for infix expressions that have single-digit numbers. */
-import "dart:io";
 import "../data_structs/stack.dart";
 
 enum Associativity { LR, RL }
