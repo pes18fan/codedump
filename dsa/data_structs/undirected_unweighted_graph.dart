@@ -1,4 +1,6 @@
 /* An unweighted undirected adjacency-list based graph implementation. */
+/* NOTE: The adjacency list I implemented here is not a conventional one, that
+ * happened by pure mistake. Will be fixed sometime soon. */
 class GraphNode {
   int data;
   List<int>? from;
@@ -12,11 +14,11 @@ class GraphNode {
   }
 }
 
-/* UUG = Undirected Unweighted Graph */
-class UUG {
+/* UUG = Undirected Unweighted Graph as Adjacency List */
+class UUGAL {
   late List<GraphNode> nodes;
 
-  UUG() {
+  UUGAL() {
     this.nodes = [];
   }
 
@@ -113,7 +115,7 @@ class UUG {
 }
 
 void main() {
-  var graph = UUG();
+  var graph = UUGAL();
 
   graph.addNode(20);
   graph.addNode(45, from: 0);
