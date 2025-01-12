@@ -6,30 +6,14 @@ class GraphEdge {
   int to;
 
   GraphEdge(this.weight, this.to);
-}
-
-class GraphNode {
-  int data;
-  List<GraphEdge> edges;
-
-  GraphNode(this.data, this.edges);
 
   @override
   String toString() {
-    var sb = StringBuffer();
-    sb.write("{$data, to: ");
-    sb.write("[");
-
-    for (var edge in edges) {
-      sb.write("{");
-      sb.write("${edge.to}, wt: ${edge.weight}");
-      sb.write("} ");
-    }
-
-    sb.write("]}");
-    return sb.toString();
+    return "{to: $to, wt: $weight}";
   }
 }
+
+typedef GraphNode = List<GraphEdge>;
 
 /* DWG = Directed Weighted Graph */
 class DWG {
@@ -60,7 +44,7 @@ class DWG {
   }
 
   // Check if a node exists at the provided index.
-  bool has(int index) {
+  bool hasNode(int index) {
     if (index < 0 || index >= nodes.length)
       return false;
     else
@@ -68,35 +52,36 @@ class DWG {
   }
 
   // Add a node to the graph.
-  void addNode(int data) {
-    nodes.add(GraphNode(data, []));
+  void addNode() {
+    nodes.add([]);
   }
 
   // Remove a node from the graph.
   void removeNode(int index) {
-    if (!has(index)) {
+    if (!hasNode(index)) {
       throw ArgumentError("No node exists with index $index.");
     }
 
-    /* Remove any references to the node being removed present, that is, any
-     * edges still pointing to that node (zombie edges). By the way, that
-     * term "zombie edge" is something I just invented. Pretty proud of it. */
+    nodes.removeAt(index);
+
+    bool notLastOrFirst = false;
+    if (index != nodes.length - 1 || index != 0) notLastOrFirst = true;
+
+    /* Remove any zombie edges */
     for (var node in nodes) {
-      for (var edge in node.edges) {
-        if (edge.to == index) {
-          node.edges.remove(edge);
-          break;
-        }
+      node.removeWhere((edge) => edge.to == index);
+
+      if (notLastOrFirst) {
+        node.forEach((edge) {
+          if (edge.to > index) edge.to--;
+        });
       }
     }
-
-    // Actually remove the node.
-    nodes.removeAt(index);
   }
 
   // Add an edge to the graph.
   void addEdge(int weight, {required int from, required int to}) {
-    if (!has(from)) {
+    if (!hasNode(from)) {
       throw ArgumentError(
           "Can't add an edge starting at node $from, that node doesn't exist.");
     }
@@ -105,66 +90,57 @@ class DWG {
       throw ArgumentError("Edge weights can't be negative.");
     }
 
-    // Check if a node pointing to `to` already exists.
-    var possibleExistingNodesToTo =
-        nodes[from].edges.where((edge) => edge.to == to).toList();
-    if (possibleExistingNodesToTo.isNotEmpty) {
-      throw StateError("The node $from already has an edge pointing to $to!");
-    }
-
-    nodes[from].edges.add(GraphEdge(weight, to));
+    var edge = GraphEdge(weight, to);
+    nodes[from].add(edge);
   }
 
   // Remove an edge from the graph.
   void removeEdge(int weight, {required int from, required int to}) {
-    if (!has(from)) {
+    if (!hasNode(from)) {
       throw ArgumentError(
           "Can't remove an edge starting at node $from, that node doesn't exist.");
     }
 
     if (nodes[from]
-        .edges
         .where((edge) => (edge.to == to && edge.weight == weight))
         .isEmpty) {
       throw ArgumentError("No edge from $from to $to exists.");
     }
 
-    nodes[from]
-        .edges
-        .removeWhere((edge) => (edge.to == to && edge.weight == weight));
+    nodes[from].removeWhere((edge) => (edge.to == to && edge.weight == weight));
   }
 
   // Change the weight of an edge.
   void changeEdgeWeight(int newWeight, {required int from, required int to}) {
-    if (!has(from)) {
+    if (!hasNode(from)) {
       throw ArgumentError(
           "Can't modify an edge starting at node $from, that node doesn't exist.");
     }
 
-    if (nodes[from].edges.where((edge) => (edge.to == to)).isEmpty) {
+    if (nodes[from].where((edge) => (edge.to == to)).isEmpty) {
       throw ArgumentError("No edge from $from to $to exists.");
     }
 
-    nodes[from].edges.singleWhere((edge) => (edge.to == to)).weight = newWeight;
+    nodes[from].singleWhere((edge) => (edge.to == to)).weight = newWeight;
   }
 
   // Remove all edges from `from` to `to`.
   void removeAllEdges({required int from, required int to}) {
-    if (!has(from)) {
+    if (!hasNode(from)) {
       throw ArgumentError(
           "Can't remove an edge starting at node $from, that node doesn't exist.");
     }
 
-    nodes[from].edges.removeWhere((edge) => (edge.to == to));
+    nodes[from].removeWhere((edge) => (edge.to == to));
   }
 }
 
 void main() {
   var graph = DWG();
 
-  graph.addNode(20);
-  graph.addNode(45);
-  graph.addNode(69);
+  graph.addNode();
+  graph.addNode();
+  graph.addNode();
 
   graph.addEdge(15, from: 0, to: 1);
   graph.addEdge(10, from: 1, to: 2);

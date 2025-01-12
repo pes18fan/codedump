@@ -21,7 +21,7 @@ extension on DWG {
   /* Use Dijkstra's algorithm to find the shortest path between `start` and
    * `end` and return a tuple with the path and distance. */
   (List<int>, int) shortestPath({required int start, required int end}) {
-    if (!has(start) || !has(end)) {
+    if (!hasNode(start) || !hasNode(end)) {
       throw ArgumentError("Node $start or $end doesn't exist in the graph.");
     }
 
@@ -55,7 +55,7 @@ extension on DWG {
       /* This code monstrosity is used to look at all of the current node's
        * neighbors and relax their distances if needed. */
       var node = currentNode.node;
-      for (var edge in node.edges) {
+      for (var edge in node) {
         var neighborIndex = unvisited.indexWhere((uv) => uv.nodeIdx == edge.to);
         if (neighborIndex == -1) continue; // Already visited
         var neighborNode = unvisited[neighborIndex];
@@ -92,11 +92,11 @@ void main() {
   var g = DWG();
 
   // Adding nodes 0 through 4, values in nodes don't matter
-  g.addNode(0);
-  g.addNode(1);
-  g.addNode(2);
-  g.addNode(3);
-  g.addNode(4);
+  g.addNode();
+  g.addNode();
+  g.addNode();
+  g.addNode();
+  g.addNode();
 
   // Adding all the edges
   g.addEdge(1, from: 0, to: 1);
