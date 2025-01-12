@@ -91,6 +91,52 @@ class UUGAL {
 
     nodes[from].removeWhere((edge) => edge.to == to);
   }
+
+  bool _walk(int curr, int needle, List<bool> seen, List<int> path) {
+    // If already seen, go back, no point recursing in there
+    if (seen[curr]) {
+      return false;
+    }
+    seen[curr] = true;
+
+    // pre
+    path.add(curr);
+
+    // if we found the needle, return back
+    if (curr == needle) {
+      return true;
+    }
+
+    // recurse
+    final node = nodes[curr];
+    for (var edge in node) {
+      if (_walk(edge.to, needle, seen, path)) {
+        // Found the path!
+        return true;
+      }
+    }
+
+    // post
+    path.removeLast();
+
+    return false;
+  }
+
+  /* A fun fact to note about depth first traversal in graphs is that it is
+   * exactly the same problem as the maze solver that is in the "algos/"
+   * folder.
+   *
+   * The running time of this algorithm is O(V + E), since we visit every edge
+   * and every node once.
+   */
+  List<int> depthFirstTraversal(int source, int needle) {
+    final seen = List<bool>.filled(nodes.length, false);
+    var path = <int>[];
+
+    _walk(source, needle, seen, path);
+
+    return path;
+  }
 }
 
 void main() {
@@ -99,13 +145,17 @@ void main() {
   graph.addNode();
   graph.addNode();
   graph.addNode();
+  graph.addNode();
+  graph.addNode();
 
   graph.addEdge(0, 1);
   graph.addEdge(0, 2);
-  graph.addEdge(1, 2);
-  graph.addEdge(2, 0);
-  print(graph);
+  graph.addEdge(0, 3);
 
-  graph.removeNode(1);
-  print(graph);
+  graph.addEdge(1, 3);
+
+  graph.addEdge(2, 4);
+
+  final path = graph.depthFirstTraversal(0, 4);
+  print(path);
 }

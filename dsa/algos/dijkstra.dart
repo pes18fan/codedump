@@ -1,89 +1,81 @@
 import "../data_structs/directed_weighted_graph.dart";
 
-class DijkstraNode {
-  GraphNode node;
-  int nodeIdx;
-  int distance;
-
-  DijkstraNode(this.node, this.nodeIdx, this.distance);
-
-  @override
-  String toString() {
-    var sb = StringBuffer();
-    sb.write("{");
-    sb.write("idx: $nodeIdx, dist: $distance");
-    sb.write("}");
-    return sb.toString();
-  }
-}
-
 extension on DWG {
-  /* Use Dijkstra's algorithm to find the shortest path between `start` and
-   * `end` and return a tuple with the path and distance. */
-  (List<int>, int) shortestPath({required int start, required int end}) {
-    if (!hasNode(start) || !hasNode(end)) {
-      throw ArgumentError("Node $start or $end doesn't exist in the graph.");
+  bool _hasUnvisited(List<bool> seen, List<double> dists) {
+    for (var i = 0; i < seen.length; i++) {
+      if (!seen[i] && dists[i] < double.infinity) return true;
     }
 
-    /* Insert the indices of all unvisited nodes; to begin with that's just all
-     * nodes. We'll treat this as a priority queue. */
-    List<DijkstraNode> unvisited = [];
-    Map<int, int?> predecessor = {}; // Track the previous node for each node
-    for (int i = 0; i < nodes.length; i++) {
-      var distance = i == 0
-          ? 0
-          : 9999999; // Set starting value very high to indicate unvisited-ness
-      var uv = DijkstraNode(nodes[i], i, distance);
-      unvisited.add(uv);
-      predecessor[i] = null; // Initialize with no predecessor
-    }
+    return false;
+  }
 
-    List<DijkstraNode> visited = [];
+  int _getLowestUnvisited(List<bool> seen, List<double> dists) {
+    var idx = -1;
+    var lowestDistance = double.infinity;
 
-    while (!unvisited.isEmpty) {
-      /* Grab the node with the least distance. This will always be at front of
-       * unvisited, and we'll ensure that later in this loop. */
-      var currentNode = unvisited.removeAt(0);
-      visited.add(currentNode);
+    for (var i = 0; i < seen.length; i++) {
+      if (seen[i]) continue;
 
-      /* In this implementation of the Dijkstra's algorithm, I only want the
-       * shortest path to `end` rather than all the paths. So, I end here. */
-      if (currentNode.nodeIdx == end) {
-        break;
+      if (lowestDistance > dists[i]) {
+        lowestDistance = dists[i];
+        idx = i;
       }
+    }
 
-      /* This code monstrosity is used to look at all of the current node's
-       * neighbors and relax their distances if needed. */
-      var node = currentNode.node;
-      for (var edge in node) {
-        var neighborIndex = unvisited.indexWhere((uv) => uv.nodeIdx == edge.to);
-        if (neighborIndex == -1) continue; // Already visited
-        var neighborNode = unvisited[neighborIndex];
-        if (currentNode.distance + edge.weight < neighborNode.distance) {
-          neighborNode.distance = currentNode.distance + edge.weight;
-          predecessor[neighborNode.nodeIdx] = currentNode.nodeIdx;
+    return idx;
+  }
+
+  /* This implementation of Dijkstra's has a running time of O(V^2 + 2E), where 
+   * O(V^2) is for the functions _hasUnvisited() and _getLowestUnvisited(),
+   * and O(2E) is because every edge is checked twice. We can simplify this
+   * into O(V^2 + E).
+   *
+   * With a min heap, the running time can be decreased to O((V + E) log V).
+   * I'll implement a min-heap based shortest path soon.
+   */
+  (List<int>, int) shortestPath(int source, int sink) {
+    if (!hasNode(source) || !hasNode(sink)) {
+      throw ArgumentError("Node $source or $sink doesn't exist.");
+    }
+
+    final seen = List<bool>.filled(nodes.length, false);
+    final dists = List<double>.filled(nodes.length, double.infinity);
+    final prev = List<int>.filled(nodes.length, -1);
+
+    dists[source] = 0;
+
+    while (_hasUnvisited(seen, dists)) {
+      final curr = _getLowestUnvisited(seen, dists);
+      seen[curr] = true;
+
+      /* Look at all of the current node's neighbors and relax their distances 
+       * if needed. */
+      for (var edge in nodes[curr]) {
+        if (seen[edge.to]) continue;
+        final dist = dists[curr] + edge.weight;
+
+        if (dist < dists[edge.to]) {
+          prev[edge.to] = curr;
+          dists[edge.to] = dist;
         }
       }
-
-      // Sort the unvisited list to ensure the next node has the smallest distance
-      unvisited.sort((a, b) => a.distance.compareTo(b.distance));
     }
 
-    // Now, construct the path using the predecessor map
-    List<int> path = [];
-    int? current = end;
-    while (current != null) {
-      path.insert(0, current);
-      current = predecessor[current];
+    // construct the path backwards
+    final path = <int>[];
+    var curr = sink;
+    while (prev[curr] != -1) {
+      path.add(curr);
+      curr = prev[curr];
     }
 
-    // Ensure the path starts at the correct node
-    if (path.first != start) {
-      throw StateError("No path exists from $start to $end.");
+    if (path.length != 0) {
+      path.add(source);
+      return (path.reversed.toList(), dists[sink].toInt());
     }
 
-    var pathLength = visited.singleWhere((v) => v.nodeIdx == end).distance;
-    return (path, pathLength);
+    // There's no path between source and sink
+    return ([], -1);
   }
 }
 
@@ -106,8 +98,6 @@ void main() {
   g.addEdge(1, from: 2, to: 4);
   g.addEdge(1, from: 3, to: 2);
 
-  var (path, distance) = g.shortestPath(start: 0, end: 4);
-
-  print(path);
-  print(distance);
+  var (path, dist) = g.shortestPath(0, 4);
+  print("path: $path, dist: $dist");
 }

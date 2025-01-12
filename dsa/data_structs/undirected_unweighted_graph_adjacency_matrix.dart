@@ -144,17 +144,6 @@ class UUGAM {
 void main() {
   var graph = UUGAM();
 
-  // graph.addNode(20);
-  // graph.addNode(45);
-  // graph.addNode(69);
-  //
-  // graph.addEdge(0, 1);
-  // graph.addEdge(0, 2);
-  // print(graph);
-  //
-  // graph.removeNode(2);
-  // print(graph);
-
   graph.addNode(0);
   graph.addNode(1);
   graph.addNode(2);
