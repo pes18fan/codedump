@@ -16,12 +16,14 @@ loop:
     adi  01h
     mov  b, a
 
-    ; compare value in 1st table to 2nd
-    ; if a is larger, transfer; else transfer 00h instead
+    ; place the corresponding value of 1st table in a
     mov  a, e
     sub  10h
     mov  e, a
     ldax d
+    
+    ; compare value in 1st table to 2nd
+    ; if a is larger, transfer; else transfer 00h instead
     cmp  b
     jnc  next
     mvi  a, 00h
