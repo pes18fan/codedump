@@ -2,10 +2,6 @@
 ; Where, x is a byte at location 8085h and d is the value in register d
 ; Store the 16-bit result at location 8086h
 
-mvi a, 01h
-sta 8085h
-mvi d, 01h
-
 mvi c, 0Ah          ; count, given as 0A in hex
 mov a, c
 sui 01h
