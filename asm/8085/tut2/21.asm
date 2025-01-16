@@ -23,14 +23,13 @@ loop:
     cpi 10h
     jnc fail
     mov a, m
-    stax d
     jmp next
 
 fail:
     mvi a, 00h
-    stax d
 
 next:
+    stax d
     inx h
     inx d
     dcr c
