@@ -21,13 +21,16 @@ loop:
     rrc
     add b           ; add nibbles
     cpi 10h
-    jnc next
+    jnc fail
     mov a, m
+    stax d
+    jmp next
+
+fail:
+    mvi a, 00h
     stax d
 
 next:
-    mvi a, 00h
-    stax d
     inx h
     inx d
     dcr c
