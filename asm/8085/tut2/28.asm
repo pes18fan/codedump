@@ -10,6 +10,7 @@ loop:
     ldax d
     ani  21h
     cpi  01h
+    ldax d
     jz   next
     mvi  a, 00h
 
