@@ -19,7 +19,7 @@ loop:
 
     ; place corresponding value of 1st table in a
     mov  a, e
-    sub  10h
+    sui  10h
     mov  e, a
     ldax d
 

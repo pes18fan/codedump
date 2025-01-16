@@ -18,7 +18,7 @@ loop:
 
     ; place corresponding value of 1st table in a
     mov  a, d
-    sub  10h
+    sui  10h
     mov  d, a
     ldax d
 
