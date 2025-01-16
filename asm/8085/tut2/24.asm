@@ -13,6 +13,10 @@ mvi e, 00h          ; store sum
 loop:
     mov  a, m
     ani  F0h        ; separate higher nibble
+    rrc
+    rrc
+    rrc
+    rrc
     cpi  07h
     jc   next
     add  e
