@@ -13,18 +13,20 @@ loop:
     ldax d
     ani  28h
     cpi  20h
-    jz   next
-    ldax d
+    jz   refill
     ani  44h
     cpi  00h
-    jz   next
+    jz   refill
     cpi  44h
-    jz   next
+    jz   refill
     ldax d
     xri  44h 
+    jmp  next
+
+refill:
+    ldax d
 
 next:
-    ldax d
     mov  m, a    
     inx  d
     inx  h   
