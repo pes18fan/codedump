@@ -1,3 +1,4 @@
+/* Tower of Hanoi */
 void toh(int n, String a, String b, String c) {
   if (n > 0) {
     toh(n - 1, a, c, b);
