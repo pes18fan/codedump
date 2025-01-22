@@ -71,6 +71,7 @@ String huffman(String text) {
     }
 
     queue.add(newNode);
+    queue.sort((a, b) => a.frequency.compareTo(b.frequency));
   }
 
   // now traverse it to form the code
