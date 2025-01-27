@@ -4,6 +4,9 @@ double f(double x) { return 1 + x * x * x; }
 
 double integrator(double (*f)(double), double a, double b) {
     double h;
+
+    /* When n = 1, the result is simple trapezoidal
+     * For anything higher, it's compound trapezoidal */
     int n = 1;
 
     printf("Enter the number of iterations: ");
