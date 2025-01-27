@@ -4,7 +4,7 @@
 double f(double x) { return 1 + x * x * x; }
 
 double integrator(double (*f)(double), double a, double b) {
-    /* When n = 1, the result is simple Simpson's
+    /* When n = 3, the result is simple Simpson's
      * For anything higher, it's compound Simpson's */
     int n;
 
