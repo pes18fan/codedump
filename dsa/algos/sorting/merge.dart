@@ -11,14 +11,19 @@ extension on List<int> {
   }
 
   List<int> _merge(List<int> left, List<int> right) {
+    /* If any one of the lists is empty, the merged result is just the non-empty
+     * one. */
     if (left.isEmpty) return right;
     if (right.isEmpty) return left;
 
     var merged = <int>[];
 
-    int i = 0; // For left
-    int j = 0; // For right
+    int i = 0; // Index for left
+    int j = 0; // Index for right
     while (true) {
+      /* Add left's value to `merged` if its smaller, then increment its 
+       * index, similarly increment right's index if its value is smaller
+       */
       if (left[i] < right[j]) {
         merged.add(left[i]);
         i++;
@@ -27,6 +32,8 @@ extension on List<int> {
         j++;
       }
 
+      /* When one of the lists runs out of elements, add the rest of the elements
+       * of the other to `merged` and end the loop. */
       if (i >= left.length) {
         merged.addAll(right.sublist(j));
         break;
@@ -40,15 +47,18 @@ extension on List<int> {
   }
 
   List<int> _sort(List<int> list) {
+    /* A list with one or zero elements is inherently sorted. */
     if (list.length <= 1) return list;
 
-    int middle = list.length ~/ 2;
+    /* Split the list into two. */
+    int middle = list.length ~/ 2; // In Dart, ~/ means integer division
     var left = list.sublist(0, middle);
     var right = list.sublist(middle, list.length);
 
     left = _sort(left);
     right = _sort(right);
 
+    /* Merge the two lists back together. */
     return _merge(left, right);
   }
 

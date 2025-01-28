@@ -19,12 +19,17 @@ extension on List<int> {
 
     var list = List<int>.from(this);
 
+    // Loop over the whole list.
     for (int i = 0; i < list.length - 1; i++) {
+      /* Loop over everything in the list after `i`.
+       * The goal is to find the index to the smallest value in the part of
+       * the list after `i`. */
       var minIdx = i;
       for (int j = i + 1; j < list.length; j++) {
         if (list[j] < list[minIdx]) minIdx = j;
       }
 
+      /* Swap `i` with the smallest element in the part of the list after it. */
       var tmp = list[i];
       list[i] = list[minIdx];
       list[minIdx] = tmp;
