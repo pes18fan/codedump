@@ -32,13 +32,11 @@ int main() {
 
     vek = bubble_sort(vek);
 
-    cout << "["
-         << "\n";
+    cout << "[" << "\n";
 
     for (auto item : vek) {
         cout << "\t" << item << "\n";
     }
 
-    cout << "]"
-         << "\n";
+    cout << "]" << "\n";
 }
