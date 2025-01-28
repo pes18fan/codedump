@@ -37,11 +37,6 @@ A small number of Fortran programs I wrote in college.
 
 Implementations of various numerical methods in C. Also done in college.
 
-### python
-
-The result of me learning various Python libraries. Take the form of Jupyter
-Notebooks. Some of these were used for college things.
-
 ### web
 
 Some simple programs I wrote a long time back when I was first learning the
