@@ -27,11 +27,6 @@ void shellsort(int* arr, int len) {
 
 int main() {
     int arr[9] = {8, 9, 1, 7, 6, 2, 3, 5, 4};
-    printf("start:\t");
-    for (int i = 0; i < 9; i++) {
-        printf("%d\t", arr[i]);
-    }
-    printf("\n");
 
     shellsort(arr, 9);
 
