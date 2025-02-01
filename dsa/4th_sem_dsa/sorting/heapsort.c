@@ -33,12 +33,6 @@ void heapsort(int* arr, int len) {
         _heapify_down(arr, i, len);
     }
 
-    printf("heap:\t");
-    for (int i = 0; i < 9; i++) {
-        printf("%d\t", arr[i]);
-    }
-    printf("\n");
-
     int l = len;
     for (int i = 0; i < len; i++) {
         int tmp = arr[l - 1];
