@@ -10,6 +10,7 @@ jmp odd
 even:
     ldax 2050h      ; a <- [2050]
     out 01h
+    hlt
 
 odd:
     mvi a, 0FFh     ; a <- FF
