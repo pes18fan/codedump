@@ -68,7 +68,12 @@ int* _sort(int* arr, int len) {
     return merged;
 }
 
-int* merge_sort(int* arr, int len) { return _sort(arr, len); }
+int* merge_sort(int* arr, int len) {
+    if (len == 0)
+        return arr;
+
+    return _sort(arr, len);
+}
 
 int main() {
     int arr[8] = {8, 7, 6, 5, 4, 3, 2, 1};
