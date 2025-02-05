@@ -10,7 +10,7 @@ Here's a guide to the content in all the folders.
 
 ### asm
 
-Consists of programs written in Intel 8085 and 8086 assembly.
+Consists of programs written in 8085 assembly, and a bit of 8086 assembly.
 
 ### c
 
@@ -26,12 +26,13 @@ Similar to the folder `c`, but for C++.
 A result of me learning data structures. Contains of plenty of data structures
 as well as algorithms, as well as some markdown files describing specific ones.
 Most of the implementations are written in Dart because I like that language,
-however there are also some C++ implementations, along with the C implementations
-in the `4th_sem_dsa` which is purely for DSA stuff I did for college.
+however there are also some C++ implementations, along with a lot of C 
+implementations in the `4th_sem_dsa` which is purely for DSA stuff I did for 
+college.
 
 ### fortran
 
-A small number of Fortran programs I wrote in college.
+A few Fortran programs I wrote in college.
 
 ### numerical_meth
 
