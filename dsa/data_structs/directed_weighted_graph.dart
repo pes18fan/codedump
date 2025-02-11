@@ -1,6 +1,4 @@
 /* An weighted directed adjacency-list based graph implementation. */
-/* NOTE: The adjacency list I implemented here is not a conventional one, that
- * happened by pure mistake. Will be fixed sometime soon. */
 class GraphEdge {
   int weight;
   int to;

@@ -11,10 +11,6 @@ void radix_sort(int* arr, int len) {
     int buckets[10][len];
     int bucket_tops[10];
 
-    for (int i = 0; i < 10; i++) {
-        bucket_tops[i] = -1;
-    }
-
     int radix = 1;
     int largest_radix = 1;
     int radix_measurer = 10;
@@ -26,7 +22,7 @@ void radix_sort(int* arr, int len) {
         }
     }
 
-    do {
+    while (radix <= largest_radix) {
         for (int i = 0; i < 10; i++) {
             bucket_tops[i] = -1;
         }
@@ -46,7 +42,7 @@ void radix_sort(int* arr, int len) {
         }
 
         radix += 1;
-    } while (radix <= largest_radix);
+    }
 }
 
 int main() {

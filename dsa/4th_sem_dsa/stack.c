@@ -18,7 +18,7 @@ bool isEmpty(Stack* s) {
 }
 
 bool isFull(Stack* s) {
-    if (s->top >= 99)
+    if (s->top >= MAX - 1)
         return true;
     else
         return false;
