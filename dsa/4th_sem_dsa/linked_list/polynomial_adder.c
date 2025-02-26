@@ -12,7 +12,6 @@ Term* phead1 = NULL;
 Term* phead2 = NULL;
 Term* phead3 = NULL; // sum
 
-// TODO: complete this
 void cleanup() {
     Term* ptr;
 
