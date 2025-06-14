@@ -40,6 +40,8 @@ def main():
 
         screen.fill(BLACK)
 
+        # Drawing a little house
+
         # vertical sides
         draw_line_dda(100, 200, 100, 500)   # left
         draw_line_dda(700, 200, 700, 500)   # right
