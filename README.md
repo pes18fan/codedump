@@ -17,9 +17,17 @@ Consists of programs written in 8085 assembly, and a bit of 8086 assembly.
 A large number of programs for doing various basic things in C; written as I 
 learnt the language.
 
+### coa
+
+Some binary arithmetic algorithms for Computer Organization & Architecture (COA).
+
 ### cpp
 
 Similar to the folder `c`, but for C++.
+
+### data_communication
+
+MATLAB/Octave programs to learn the basics of signal manipulation.
 
 ### dsa
 
@@ -33,6 +41,11 @@ college.
 ### fortran
 
 A few Fortran programs I wrote in college.
+
+### graphics
+
+Implementation of various graphics algorithms in Python using the `pygame`
+library.
 
 ### numerical_meth
 
