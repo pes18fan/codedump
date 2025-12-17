@@ -51,6 +51,10 @@ library.
 
 Implementations of various numerical methods in C. Also done in college.
 
+### vhdl
+
+Some hardware descriptions in VHDL done as part of my Embedded Systems course.
+
 ### web
 
 Some simple programs I wrote a long time back when I was first learning the
