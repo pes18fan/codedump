@@ -1,4 +1,5 @@
--- library things, i forgor
+library IEEE;
+use IEEE.std_logic_1164.all;
 
 entity notgate is
     port( a: std_logic;
