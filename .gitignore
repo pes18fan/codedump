@@ -1,3 +1,5 @@
 *.out
 kata-machine
 pubspec.yaml
+.venv
+.ipynb_checkpoints
