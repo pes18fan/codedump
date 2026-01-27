@@ -27,4 +27,4 @@ xlabel("Time");
 ylabel("Amplitude");
 
 
-sgtitle("Noisy sine wave, Sadbhav Adhikari, ACE079BCT054")
+sgtitle("Noisy sine wave")

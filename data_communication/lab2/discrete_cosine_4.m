@@ -8,7 +8,7 @@ stem(x, y1);
 hold on;
 plot(t, zeros(size(t)))
 
-title("DT cosine wave, Sadbhav Adhikari, ACE079BCT054")
+title("DT cosine wave")
 xlabel("Time");
 ylabel("Amplitude");
 legend("Sine", "Zero line");

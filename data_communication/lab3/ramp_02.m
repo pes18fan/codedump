@@ -13,5 +13,3 @@ plot(t, x, "linewidth", 1.5)
 title("Ramp functon")
 xlabel("Time")
 ylabel("Amplitude")
-
-sgtitle("Sadbhav Adhikari, 54")

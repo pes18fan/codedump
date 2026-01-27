@@ -8,7 +8,7 @@ hold on
 % stem() plots discrete graphs, can modify its look through params too
 stem(x, y, "filled", "markerfacecolor", "r")
 
-title("Straight lines, Sadbhav Adhikari, ACE079BCT054")
+title("Straight lines")
 xlabel("X-axis")
 ylabel("Y-axis")
 legend("line")

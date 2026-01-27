@@ -51,8 +51,6 @@ long long booth_multiply(int M, int Q) {
 }
 
 int main() {
-    printf("Sadbhav Adhikari | ACE079BCT054\n");
-
     char bufferM[35], bufferQ[35];
     printf("Enter multiplicand in binary (upto 32 bits): ");
     if (!fgets(bufferM, sizeof(bufferM), stdin))

@@ -8,6 +8,11 @@ stuff.
 
 Here's a guide to the content in all the folders.
 
+### ai
+
+Consists of Jupyter Notebooks each exploring a certain AI algorithm to solve
+a problem.
+
 ### asm
 
 Consists of programs written in 8085 assembly, and a bit of 8086 assembly.

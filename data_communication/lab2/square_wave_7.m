@@ -6,6 +6,6 @@ y = a * sign(sin(2 * pi * f * t));
 
 plot(t, y)
 
-title("Square sine wave, Sadbhav Adhikari, ACE079BCT054");
+title("Square sine wave");
 xlabel("Time");
 ylabel("Amplitude");

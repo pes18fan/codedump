@@ -10,7 +10,7 @@ hold on;
 y2 = a * cos(2 * pi * f * t);
 plot(x, y2);
 
-title("Sine and cosine waves, Sadbhav Adhikari, ACE079BCT054")
+title("Sine and cosine waves")
 xlabel("Time");
 ylabel("Amplitude");
 legend("Sine", "Cosine");

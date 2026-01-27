@@ -15,5 +15,3 @@ plot(t, x, "linewidth", 1.5)
 title("Signum functon");
 xlabel("Time");
 ylabel("Amplitude");
-
-sgtitle("Sadbhav Adhikari, 54");

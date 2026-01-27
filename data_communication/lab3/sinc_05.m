@@ -4,5 +4,3 @@ plot(t, y, "linewidth", 1.5)
 title("Sinc functon");
 xlabel("Time");
 ylabel("Amplitude");
-
-sgtitle("Sadbhav Adhikari, 54");

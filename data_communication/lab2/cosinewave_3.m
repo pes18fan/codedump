@@ -8,7 +8,7 @@ plot(x, y1);
 hold on;
 plot(t, zeros(size(t)))
 
-title("CT cosine wave, Sadbhav Adhikari, ACE079BCT054")
+title("CT cosine wave")
 xlabel("Time");
 ylabel("Amplitude");
 legend("Sine", "Zero line");

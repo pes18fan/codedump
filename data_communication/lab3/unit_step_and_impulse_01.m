@@ -13,5 +13,3 @@ stem(t, impulse)
 title("Dirac delta function, discrete")
 xlabel("Time")
 ylabel("Amplitude")
-
-sgtitle("Sadbhav Adhikari, 54")
