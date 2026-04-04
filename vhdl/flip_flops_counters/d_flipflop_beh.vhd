@@ -15,7 +15,7 @@ begin
 			q0 <= '1';
 		elsif clk 'event and clk = '1' then
 			q <= d;
-			q <= not d;
+			q0 <= not d;
 		end if;
 	end process;
 end Behavioral;
