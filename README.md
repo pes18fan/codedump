@@ -19,8 +19,8 @@ Consists of programs written in 8085 assembly, and a bit of 8086 assembly.
 
 ### c
 
-A large number of programs for doing various basic things in C; written as I 
-learnt the language.
+A large number of programs for doing various basic things in C; written over
+several years as I learnt the language.
 
 ### coa
 
@@ -55,6 +55,10 @@ library.
 ### numerical_meth
 
 Implementations of various numerical methods in C. Also done in college.
+
+### sql
+
+Some SQL query questions solved, part of my DBMS classes in college.
 
 ### vhdl
 
