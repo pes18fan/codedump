@@ -7,13 +7,14 @@ typedef enum { LR, RL } Associativity;
 // Higher number, higher precedence
 // 3: () {} [], 2: ^, 1: / *, 0: + -
 typedef enum {
-    TERM,     // + -
-    FACTOR,   // / *
-    EXPONENT, // ^
-    BRACKETS  // (  )
+    TERM,      // + -
+    FACTOR,    // / *
+    EXPONENT,  // ^
+    BRACKETS   // (  )
 } Precedence;
 
-Precedence precedence_of(char c) {
+Precedence precedence_of(char c)
+{
     switch (c) {
     case '(':
     case ')':
@@ -31,7 +32,8 @@ Precedence precedence_of(char c) {
     }
 }
 
-Associativity associativity_of(char c) {
+Associativity associativity_of(char c)
+{
     switch (c) {
     case '^':
         return RL;
@@ -46,26 +48,29 @@ Associativity associativity_of(char c) {
 }
 
 typedef struct {
-    char* arr;
+    char *arr;
     int capacity;
     int top;
 } Stack;
 
-void init_stack(Stack* s) {
+void init_stack(Stack *s)
+{
     s->capacity = 100;
     s->arr = malloc(s->capacity);
     s->top = -1;
 }
 
-void destroy_stack(Stack* s) {
+void destroy_stack(Stack *s)
+{
     free(s->arr);
     s->arr = NULL;
 }
 
-void push(Stack* s, char value) {
+void push(Stack *s, char value)
+{
     if (s->top >= s->capacity - 1) {
         s->capacity *= 2;
-        char* temp = realloc(s->arr, s->capacity);
+        char *temp = realloc(s->arr, s->capacity);
         if (!temp) {
             fprintf(stderr, "Failed to allocate memory\n");
             free(s->arr);
@@ -78,9 +83,11 @@ void push(Stack* s, char value) {
     s->arr[s->top] = value;
 }
 
-bool is_empty(Stack* s) { return s->top < 0; }
+bool is_empty(Stack *s)
+{ return s->top < 0; }
 
-char pop(Stack* s) {
+char pop(Stack *s)
+{
     if (is_empty(s)) {
         printf("Stack is empty!\n");
         exit(EXIT_FAILURE);
@@ -91,7 +98,8 @@ char pop(Stack* s) {
     return popped;
 }
 
-char peek(Stack* s) {
+char peek(Stack *s)
+{
     if (is_empty(s)) {
         printf("Stack is empty!\n");
         exit(EXIT_FAILURE);
@@ -100,9 +108,11 @@ char peek(Stack* s) {
     return s->arr[s->top];
 }
 
-bool is_digit(char c) { return c >= 48 && c <= 57; }
+bool is_digit(char c)
+{ return c >= 48 && c <= 57; }
 
-void print_postfix(char* infix) {
+void print_postfix(char *infix)
+{
     Stack stack;
     init_stack(&stack);
 
@@ -147,7 +157,7 @@ void print_postfix(char* infix) {
         case ')': {
             if (is_empty(&stack)) {
                 fprintf(stderr, "Invalid infix input\n");
-                goto end;
+                goto die;
             }
 
             char popped;
@@ -165,7 +175,7 @@ void print_postfix(char* infix) {
             continue;
         default:
             fprintf(stderr, "\nInvalid character %c\n", c);
-            goto end;
+            goto die;
         }
     }
 
@@ -173,12 +183,13 @@ void print_postfix(char* infix) {
         printf("%c ", pop(&stack));
     }
 
-end:
+die:
     destroy_stack(&stack);
     return;
 }
 
-int main() {
+int main()
+{
     char buffer[512];
 
     printf("Enter an infix expression: ");

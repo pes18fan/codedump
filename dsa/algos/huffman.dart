@@ -31,8 +31,7 @@ String? _findCharacterCode(HuffmanNode? node, String needle, String path) {
     return left; // the left path
   }
 
-  var right = _findCharacterCode(node.right, needle, path + "1");
-  return right; // either the right path or null
+  return _findCharacterCode(node.right, needle, path + "1");  // either the right path or null
 }
 
 String? findCharacterCode(HuffmanNode root, String needle) {
