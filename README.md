@@ -34,6 +34,10 @@ Similar to the folder `c`, but for C++.
 
 MATLAB/Octave programs to learn the basics of signal manipulation.
 
+### datamining
+
+Some classical ML stuff for my Data Mining assignments.
+
 ### dsa
 
 A result of me learning data structures. Contains of plenty of data structures
